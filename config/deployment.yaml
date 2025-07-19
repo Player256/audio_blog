@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: audio-blog-generator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: audio-blog-generator
+  template:
+    metadata:
+      labels:
+        app: audio-blog-generator
+    spec:
+      containers:
+        - name: gradio-app
+          image: charizarddocker/gradio-app:latest
+          ports:
+            - containerPort: 7860
+          env:
+            - name: HF_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hf-token-secret
+                  key: token
+            - name: VLLM_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: vllm-config
+                  key: vllm-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gradio-service
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 7860
+      nodePort: 30080
+  selector:
+    app: audio-blog-generator
+
