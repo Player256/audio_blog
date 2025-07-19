@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY app.py /app/
 
-RUN pip install gradio requests transformers librosa torch torchvision
+RUN pip install gradio requests transformers librosa torch torchvision requests
 
 EXPOSE 7860
 

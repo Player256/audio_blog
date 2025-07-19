@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: gradio-app
-          image: charizarddocker/gradio-app:latest
+          image: charizarddocker/gradio_app:latest
           ports:
             - containerPort: 7860
           env:
